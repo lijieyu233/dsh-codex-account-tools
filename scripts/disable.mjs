@@ -1,0 +1,13 @@
+import { readFile, writeFile, copyFile, rename } from 'node:fs/promises';
+import { homedir } from 'node:os';
+import { join } from 'node:path';
+const name = 'dsh-codex-account-tools';
+const file = join(homedir(), '.dsh/profiles/desktop/package.json');
+const config = JSON.parse((await readFile(file, 'utf8')).replace(/^\uFEFF/u, ''));
+if (!Array.isArray(config.dsh?.profile?.bundles)) throw new Error('Invalid profile manifest; refusing to modify.');
+await copyFile(file, `${file}.before-disable-account-tools`);
+config.dsh.profile.bundles = config.dsh.profile.bundles.filter((entry) => entry !== name);
+if (config.dependencies) delete config.dependencies[name];
+await writeFile(`${file}.account-tools-tmp`, `${JSON.stringify(config, null, 2)}\n`, 'utf8');
+await rename(`${file}.account-tools-tmp`, file);
+console.log('Only the companion bundle/dependency was removed. Other plugins and account credentials were not modified. Reload DSH to apply.');

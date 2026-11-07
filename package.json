@@ -1,0 +1,33 @@
+{
+  "name": "dsh-codex-account-tools",
+  "version": "1.1.0",
+  "description": "Codex 账号工具：为 DSH Codex 订阅提供安全的 JSON 导入、预览与导出。",
+  "type": "module",
+  "main": "./lib/index.js",
+  "files": ["lib/*.js", "cordis.patch.yml", "compatibility.json", "README.md", "PUBLISHING.md", "LICENSE"],
+  "license": "MIT",
+  "author": "lijieyu233",
+  "repository": { "type": "git", "url": "git+https://github.com/lijieyu233/dsh-codex-account-tools.git" },
+  "homepage": "https://github.com/lijieyu233/dsh-codex-account-tools#readme",
+  "bugs": { "url": "https://github.com/lijieyu233/dsh-codex-account-tools/issues" },
+  "keywords": ["dsh-plugin", "deepseek-harness", "codex", "oauth", "account-import", "account-export"],
+  "engines": { "node": ">=22.19.0" },
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json",
+    "./cordis.patch.yml": "./cordis.patch.yml"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "install:local": "node scripts/install.mjs"
+  },
+  "dsh": {
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "client": {
+      "inject": ["@deepseek-ai/dsh-client-connection", "@deepseek-ai/dsh-client-ui-settings"],
+      "platform": "web"
+    }
+  },
+  "peerDependencies": { "dsh-codex-subscription": ">=3.2.6 <4" }
+}

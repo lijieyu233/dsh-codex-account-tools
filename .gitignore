@@ -1,0 +1,8 @@
+node_modules/
+artifacts/
+backups/
+release/
+*.tgz
+# Local, authenticated UI verification helpers are not public source.
+test/host-electron.cjs
+test/connection-check.mjs
